@@ -116,6 +116,8 @@ public class AlexandreAguado {
         
        if (!arr.buscaAvancada(entstring.nextLine()))
             System.out.println("Nao encontrado!!!"); 
+       
+        System.out.println("Linha adicionada para teste_1");
   
     }
   
