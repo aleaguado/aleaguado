@@ -18,6 +18,7 @@ class EstruturaAvancada  //Criamos aqui nossa classe EstruturaAvancada
    private String[] a;                 // cria a referência do vetor
    private int nElems;               // nElems controla quantos elementos o vetor terá ...
    private int novo;
+   private int velho;
    //-----------------------------------------------------------
    public EstruturaAvancada(int max)         // método construtor
       {
@@ -29,6 +30,7 @@ class EstruturaAvancada  //Criamos aqui nossa classe EstruturaAvancada
 //--------------------------------------------------------------
    public boolean find(String searchKey)
       {                              // metodo buscará o valor que a classe usuaria pedir ...
+      
       int j;
       for(j=0; j<nElems; j++)            // varrerá o vetor buscando ...
          if(a[j].equals(searchKey))           // entrou o item?
@@ -125,6 +127,7 @@ public class AlexandreAguado {
         System.out.println("Linha adicionada para teste_4");
         
         System.out.println("Linha adicionada para teste_5");
+        System.out.println("Linha do Aguado!!!");
     }
   
 }
