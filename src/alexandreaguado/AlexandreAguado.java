@@ -17,6 +17,7 @@ class EstruturaAvancada  //Criamos aqui nossa classe EstruturaAvancada
    { 
    private String[] a;                 // cria a referência do vetor
    private int nElems;               // nElems controla quantos elementos o vetor terá ...
+   private int novo;
    //-----------------------------------------------------------
    public EstruturaAvancada(int max)         // método construtor
       {
