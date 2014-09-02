@@ -4,11 +4,14 @@
  * and open the template in the editor.
  */
 
-package nwk.db;
+package DemoAvancado;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,10 +21,11 @@ import java.sql.SQLException;
 public class DB {
     
     private final String Db = "xe";
-    private final String ConnString = "jdbc:oracle:thin:@//10.1.1.182:1521/" + Db;
+    private final String ConnString = "jdbc:oracle:thin:@//192.168.0.100:1521/" + Db;
     private final String User = "aleaguado";
     private final String Pass = "aleaguado";
     private Connection connection;
+    
     
     private static DB instance;
     

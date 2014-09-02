@@ -4,18 +4,25 @@
  * and open the template in the editor.
  */
 
-package nwk.form;
+package DemoAvancado;
+import java.awt.GridLayout;
 import javax.swing.*;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JOptionPane;
-import nwk.classes.*;
-import nwk.db.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author aleaguado
  */
 public class TelaSistema extends javax.swing.JFrame {
-    private Queries que = new Queries();
-    private EstruturaDados est;
+    private DAO que = new DAO();
+    ConjPessoas conjP = new ConjPessoas(100);
+    
     /**
      * Creates new form TelaSistema
      */
@@ -47,6 +54,10 @@ public class TelaSistema extends javax.swing.JFrame {
         jTextBusca = new javax.swing.JTextField();
         jBusca = new javax.swing.JButton();
         jPanelBusca = new javax.swing.JPanel();
+        jBAtualizar = new javax.swing.JButton();
+        jBRemover = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JFramePrincipal");
@@ -57,6 +68,12 @@ public class TelaSistema extends javax.swing.JFrame {
         jLabel2.setText("Telefone:");
 
         jLabel3.setText("Idade:");
+
+        jTextIdade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextIdadeActionPerformed(evt);
+            }
+        });
 
         jButtonInserir.setText("Inserir Registro");
         jButtonInserir.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +119,7 @@ public class TelaSistema extends javax.swing.JFrame {
                         .addGroup(jPanelInserirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jTextIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addContainerGap(280, Short.MAX_VALUE))
         );
 
         jTPanelPrincipal.addTab("Inserir", jPanelInserir);
@@ -122,16 +139,58 @@ public class TelaSistema extends javax.swing.JFrame {
             }
         });
 
+        jBAtualizar.setText("Atualizar Banco de Dados");
+        jBAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAtualizarActionPerformed(evt);
+            }
+        });
+
+        jBRemover.setText("Remover Registro Selecionado");
+        jBRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBRemoverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelBuscaLayout = new javax.swing.GroupLayout(jPanelBusca);
         jPanelBusca.setLayout(jPanelBuscaLayout);
         jPanelBuscaLayout.setHorizontalGroup(
             jPanelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGroup(jPanelBuscaLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBAtualizar)
+                    .addComponent(jBRemover))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         jPanelBuscaLayout.setVerticalGroup(
             jPanelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 341, Short.MAX_VALUE)
+            .addGroup(jPanelBuscaLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jBAtualizar)
+                .addGap(18, 18, 18)
+                .addComponent(jBRemover)
+                .addContainerGap(240, Short.MAX_VALUE))
         );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Telefone", "Idade"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelVisualizarLayout = new javax.swing.GroupLayout(jPanelVisualizar);
         jPanelVisualizar.setLayout(jPanelVisualizarLayout);
@@ -148,7 +207,8 @@ public class TelaSistema extends javax.swing.JFrame {
                         .addComponent(jBusca)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelVisualizarLayout.createSequentialGroup()
-                        .addGap(649, 649, 649)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanelBusca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -161,8 +221,10 @@ public class TelaSistema extends javax.swing.JFrame {
                     .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBusca))
                 .addGap(18, 18, 18)
-                .addComponent(jPanelBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGroup(jPanelVisualizarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTPanelPrincipal.addTab("Visualizar", jPanelVisualizar);
@@ -201,10 +263,10 @@ public class TelaSistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscaActionPerformed
+        //Aqui é onde vamos criar o modelo p/ popular a tabela!
 
+    jTable1.setModel(que.selecionar(jTextBusca.getText()).getTable());
         // TODO add your handling code here:
-        est = que.selecionarPessoa(jTextBusca.getText().trim());
-        //Seguir aqui com Material!!!
     }//GEN-LAST:event_jBuscaActionPerformed
 
     private void jTextBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextBuscaActionPerformed
@@ -213,14 +275,65 @@ public class TelaSistema extends javax.swing.JFrame {
 
     private void jButtonInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInserirActionPerformed
         // TODO add your handling code here:
-        if (!que.inserirPessoa(jTextNome.getText(), jTextTelefone.getText(),Integer.parseInt(jTextIdade.getText())))
-        {     JOptionPane.showMessageDialog(null, "Erro ao inserir");  } else
-        {
+
+        String n = jTextNome.getText();
+        String t =  jTextTelefone.getText();
+        int id =  Integer.parseInt(jTextIdade.getText());
+        Pessoa p = new Pessoa(n, t, id);
+        if (!que.inserir(p)) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir!!!");
+        } else {
             JOptionPane.showMessageDialog(null, "Inserido com Sucesso!!!");
             this.limpaInserir();
         }
     }//GEN-LAST:event_jButtonInserirActionPerformed
 
+    private void jTextIdadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextIdadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextIdadeActionPerformed
+
+    private void jBAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAtualizarActionPerformed
+        // TODO add your handling code here:
+       //JOptionPane.showMessageDialog(null,"Valores:" + jTable1.getValueAt(jTable1.getSelectedRow(), jTable1.getSelectedColumn()));
+
+        String n = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        String t =  (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        int id =  Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+       
+        switch (JOptionPane.showConfirmDialog(null, "Deseja atualizar o registro para: " + n + " | " + t + " | " + jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString() + " ?" )) {  
+                case 0:       
+                  Pessoa pUp = new Pessoa(n,t,id);
+                    if (!que.atualizar(pUp)) {
+                        JOptionPane.showMessageDialog(null, "Erro ao atualizar!!!");
+                    } else {
+                        jTable1.setModel(que.selecionar(jTextBusca.getText()).getTable());
+                        JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!!!");
+                    } 
+                    break;         
+    }//GEN-LAST:event_jBAtualizarActionPerformed
+    }        
+    private void jBRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoverActionPerformed
+        // TODO add your handling code here:
+
+        String n = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        String t =  (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        int id =  Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+       
+        switch (JOptionPane.showConfirmDialog(null, "Deseja remover o registro: " + n + " | " + t + " | " + jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString() + " ?" )) {  
+                case 0:       
+                  Pessoa pUp = new Pessoa(n,t,id);
+                    if (!que.remover(pUp)) {
+                        JOptionPane.showMessageDialog(null, "Erro ao remover!!!");
+                    } else {
+                        jTable1.setModel(que.selecionar(jTextBusca.getText()).getTable());
+                        JOptionPane.showMessageDialog(null, "Removido com Sucesso!!!");
+                    } 
+                    break;         
+    }          
+
+    }//GEN-LAST:event_jBRemoverActionPerformed
+
+        
     private void limpaInserir() {
         jTextNome.setText(null);
         jTextTelefone.setText(null);
@@ -264,6 +377,8 @@ public class TelaSistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBAtualizar;
+    private javax.swing.JButton jBRemover;
     private javax.swing.JButton jBusca;
     private javax.swing.JButton jButtonInserir;
     private javax.swing.JLabel jLabel1;
@@ -274,7 +389,9 @@ public class TelaSistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelInserir;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JPanel jPanelVisualizar;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTPanelPrincipal;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextBusca;
     private javax.swing.JTextField jTextIdade;
     private javax.swing.JTextField jTextNome;
